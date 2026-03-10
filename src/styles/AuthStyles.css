@@ -1,0 +1,230 @@
+/* Importar Poppins y Roboto */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=Roboto:wght@300;400;500&display=swap');
+
+:root {
+  --primary-green: #2ecc71; /* Verde más moderno y vibrante */
+  --bg-color: #fafbfc; /* Fondo ultra limpio */
+  --text-dark: #2c3e50; /* Texto principal */
+  --text-light: #7f8c8d; /* Texto secundario (placeholder) */
+  --border-color: #edf2f7;
+  --input-bg: #ffffff;
+}
+
+/* Estilos Globales para Auth */
+.auth-body-context {
+  font-family: 'Poppins', sans-serif;
+  background-color: var(--bg-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  margin: 0;
+}
+
+.auth-card-modern {
+  background: white;
+  padding: 40px;
+  border-radius: 20px;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.03);
+  width: 100%;
+  max-width: 380px;
+  text-align: center;
+}
+
+/* Cabecera Minimalista */
+.logo-minimal {
+  font-size: 28px;
+  font-weight: 600;
+  color: var(--text-dark);
+  margin-bottom: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.tagline-minimal {
+  font-size: 14px;
+  color: var(--text-light);
+  margin-bottom: 30px;
+  font-weight: 300;
+}
+
+.auth-title-minimal {
+  font-size: 18px;
+  font-weight: 500;
+  color: var(--text-dark);
+  margin-bottom: 25px;
+  text-align: left;
+}
+
+/* Rediseño de Inputs Modernos */
+.modern-input-group {
+  position: relative;
+  margin-bottom: 20px;
+  text-align: left;
+}
+
+.modern-input-group label {
+  font-family: 'Roboto', sans-serif;
+  font-size: 13px;
+  color: var(--text-light);
+  font-weight: 500;
+  margin-bottom: 5px;
+  display: block;
+}
+
+.input-with-icon {
+  position: relative;
+}
+
+.input-with-icon input,
+.input-with-icon select {
+  width: 100%;
+  padding: 14px;
+  padding-left: 45px; /* Espacio para el icono */
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  background-color: var(--input-bg);
+  font-size: 15px;
+  color: var(--text-dark);
+  outline: none;
+  transition: all 0.2s ease;
+  font-family: 'Roboto', sans-serif;
+}
+
+.input-with-icon input:focus {
+  border-color: var(--primary-green);
+  box-shadow: 0 0 0 3px rgba(46, 204, 113, 0.1);
+}
+
+.input-icon-minimal {
+  position: absolute;
+  left: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-light);
+  pointer-events: none;
+}
+
+/* Botón Minimalista */
+.btn-primary-minimal {
+  background-color: var(--primary-green);
+  color: white;
+  border: none;
+  padding: 16px;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  width: 100%;
+  font-family: 'Poppins', sans-serif;
+  transition: transform 0.1s;
+}
+
+.btn-primary-minimal:hover { transform: translateY(-1px); }
+.btn-primary-minimal:active { transform: translateY(1px); }
+
+/* Footer */
+.auth-footer-minimal {
+  margin-top: 25px;
+  font-size: 14px;
+  color: var(--text-light);
+}
+
+.link-minimal {
+  color: var(--primary-green);
+  font-weight: 500;
+  cursor: pointer;
+  text-decoration: none;
+}
+/* Específicos para el contenedor del Logo */
+.logo-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 10px;
+  }
+  
+  .logo-minimal span {
+    color: var(--primary-green);
+  }
+  
+  /* Enlace de 'Olvidaste tu contraseña' */
+  .forgot-password {
+    font-size: 12px;
+    color: var(--text-light);
+    cursor: pointer;
+    transition: color 0.2s;
+  }
+  
+  .forgot-password:hover {
+    color: var(--primary-green);
+  }
+  
+  /* Animación de entrada para el botón */
+  .btn-primary-minimal {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 10px;
+  }
+  
+  /* Estilo para que el fondo se sienta más profundo */
+  .auth-body-context {
+    background: radial-gradient(circle at top right, #f0fdf4 0%, #fafbfc 100%);
+  }
+  .register-wide {
+    max-width: 450px; /* Un poco más ancho para los campos dobles */
+  }
+  
+  .password-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+  }
+  
+  .phone-flex-container {
+    display: flex;
+    gap: 10px;
+  }
+  
+  .country-select-wrapper {
+    position: relative;
+    min-width: 110px;
+  }
+  
+  .country-select-wrapper select {
+    width: 100%;
+    padding: 14px 10px 14px 35px;
+    border-radius: 12px;
+    border: 1px solid var(--border-color);
+    background: white;
+    appearance: none;
+    font-family: 'Roboto';
+    font-size: 14px;
+  }
+  
+  .select-icon {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-light);
+    z-index: 1;
+  }
+  
+  .error-text {
+    color: #e74c3c;
+    font-size: 11px;
+    margin-top: 4px;
+    display: block;
+    font-weight: 500;
+  }
+  
+  .flex-grow { flex-grow: 1; }
+  
+  @media (max-width: 480px) {
+    .password-grid { grid-template-columns: 1fr; }
+  }

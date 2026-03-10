@@ -1,0 +1,156 @@
+.dash-container-v2 {
+  background-color: #f4f6f8; /* Gris muy claro de fondo */
+  min-height: 100vh;
+  padding: 20px;
+}
+
+/* Header Estilo Perfil */
+.dash-top-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+.user-profile-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.user-avatar {
+  background: white;
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+}
+
+.user-text {
+  display: flex;
+  flex-direction: column;
+}
+.welcome-msg {
+  font-size: 12px;
+  color: #888;
+}
+.user-name {
+  font-weight: 700;
+  font-size: 15px;
+  color: #333;
+}
+
+.notif-bell-btn {
+  position: relative;
+  background: white;
+  border: none;
+  padding: 10px;
+  border-radius: 12px;
+  cursor: pointer;
+  color: #555;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+}
+
+.notif-badge-v2 {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  background: #ff4757;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  border: 2px solid white;
+}
+
+/* Tarjetas de Acción */
+.actions-grid-v2 {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 15px;
+  margin: 25px 0;
+}
+
+.action-card-v2 {
+  background: white;
+  border: none;
+  border-radius: 16px;
+  padding: 20px 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.action-card-v2:hover {
+  transform: translateY(-3px);
+}
+
+.icon-circle-v2 {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.icon-deposit {
+  background: #e8f5e9;
+  color: #2ecc71;
+}
+.icon-withdraw {
+  background: #fff1f0;
+  color: #ff4d4f;
+}
+.icon-send {
+  background: #e6f7ff;
+  color: #1890ff;
+}
+.icon-receive {
+  background: #f6ffed;
+  color: #52c41a;
+}
+
+/* Lista de Historial */
+.tx-item-v2 {
+  background: white;
+  margin-bottom: 12px;
+  border-radius: 12px;
+  padding: 15px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  position: relative;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
+}
+
+.tx-status-indicator {
+  position: absolute;
+  left: 0;
+  top: 15%;
+  bottom: 15%;
+  width: 4px;
+  border-radius: 0 4px 4px 0;
+}
+
+.status-green {
+  background: #2ecc71;
+}
+.status-red {
+  background: #ff4757;
+}
+
+.tx-amount-v2 {
+  font-weight: 800;
+}
+.tx-amount-v2.pos {
+  color: #2ecc71;
+}
+.tx-amount-v2.neg {
+  color: #ff4757;
+}
