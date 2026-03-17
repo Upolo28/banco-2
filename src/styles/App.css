@@ -1,55 +1,25 @@
-:root {
-  --primary-green: #10b981;
-  --dark-green: #065f46;
-  --light-bg: #f3f4f6;
-  --white: #ffffff;
+#root-inner,
+#root {
+  height: 100%;
+  width: 100%;
 }
 
-body {
-  margin: 0;
-  font-family: 'Inter', sans-serif;
-  background-color: var(--light-bg);
-}
-
-.auth-container {
+.app-viewport {
+  width: 100%;
+  height: 100%;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 100vh;
+  background: #F4F6F9;
+  position: relative;
+  overflow: hidden;
 }
 
-.card {
-  background: var(--white);
-  padding: 2rem;
-  border-radius: 16px;
-  box-shadow: 0 10px 25px rgba(0,0,0,0.05);
-  width: 320px;
+.main-content {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  scrollbar-width: none;
+  padding-bottom: 72px;
+  -webkit-overflow-scrolling: touch;
 }
-
-.btn-primary {
-  background: var(--primary-green);
-  color: white;
-  border: none;
-  padding: 10px;
-  border-radius: 8px;
-  cursor: pointer;
-  width: 100%;
-  font-weight: bold;
-  transition: transform 0.2s;
-}
-
-.btn-primary:hover { transform: scale(1.02); }
-
-/* Estilos de la Toolbar deslizable */
-.sliding-panel {
-  position: fixed;
-  top: 0;
-  right: 0;
-  width: 300px;
-  height: 100%;
-  background: white;
-  box-shadow: -5px 0 15px rgba(0,0,0,0.1);
-  padding: 20px;
-  z-index: 100;
-}
+.main-content::-webkit-scrollbar { display: none; }

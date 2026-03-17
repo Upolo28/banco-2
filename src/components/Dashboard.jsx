@@ -1,207 +1,207 @@
-import React, { useState } from 'react';
-import { 
-  Send, ArrowUpCircle, PlusCircle, Landmark, 
-  History, X, ChevronRight, Bell, User, Search, ShoppingBag
-} from 'lucide-react';
-import '../styles/Dashboard.css';
+import React from "react";
+import {
+  Send, ArrowDown, ArrowUp, Building2,
+  Bell, Search, ShoppingCart, Zap,
+  UtensilsCrossed, Phone, Banknote, Droplets,
+  Home, TrendingUp, ArrowDownLeft, ArrowUpRight,
+} from "lucide-react";
+import WalletTab from "./WalletTab";
+import AnalyticsTab from "./AnalyticsTab";
+import DailyLifeSection from "./DailyLifeSection";
+import "../styles/Dashboard.css";
 
-const BANCOS_GE = [
-  { id: 'bange', name: 'BANGE', full: 'Banco Nacional de Guinea Ecuatorial', color: '#e74c3c' },
-  { id: 'cceibank', name: 'CCEIBANK', full: 'CCEI Bank GE', color: '#2c3e50' },
-  { id: 'societe', name: 'Société Générale', full: 'SG Guinea Ecuatorial', color: '#636e72' },
-  { id: 'ecobank', name: 'Ecobank', full: 'Ecobank GE', color: '#3498db' }
-];
-
-export default function Dashboard({ balance = 1250500, notifCount = 2, openNotifs }) {
-  const [activeModal, setActiveModal] = useState(null);
-  const [selectedBank, setSelectedBank] = useState(null);
-
-  const closeModal = () => { setActiveModal(null); setSelectedBank(null); };
-
+/* ─────────────────────────────────────────
+   Revolut-style icon bubble
+   Rounded square + soft pastel bg + icon
+───────────────────────────────────────── */
+function IconBubble({ icon: Icon, bg, color, size = 20 }) {
   return (
-    <div className="dashboard-container">
-      {/* HEADER SUPERIOR PROFESIONAL */}
-      <header className="dash-header">
-        <div className="user-profile">
-          <div className="avatar-wrapper"><User size={20} /></div>
-          <span>Hola, <strong>Marie Claire</strong></span>
-        </div>
-        <div className="header-actions">
-          <button className="icon-circle-btn"><Search size={20} /></button>
-          <button className="icon-circle-btn" onClick={openNotifs}>
-            <Bell size={20} />
-            {notifCount > 0 && <span className="notif-badge">{notifCount}</span>}
-          </button>
-        </div>
-      </header>
-
-      {/* TARJETA DE SALDO (GLASSMORPHISM) */}
-      <section className="balance-hero-section">
-        <div className="balance-glass-card">
-          <span className="label">Saldo Disponible</span>
-          <h2 className="amount">{balance.toLocaleString()} <small>XAF</small></h2>
-          <div className="card-waves"></div>
-        </div>
-      </section>
-
-      {/* NAVEGACIÓN DE ACCIONES RÁPIDAS */}
-      <nav className="quick-actions-grid">
-        <button className="nav-item" onClick={() => setActiveModal('send')}>
-          <div className="icon-container blue"><Send size={22} /></div>
-          <span>Enviar</span>
-        </button>
-        <button className="nav-item" onClick={() => setActiveModal('withdraw')}>
-          <div className="icon-container red"><ArrowUpCircle size={22} /></div>
-          <span>Retirar</span>
-        </button>
-        <button className="nav-item" onClick={() => setActiveModal('deposit')}>
-          <div className="icon-container yellow"><PlusCircle size={22} /></div>
-          <span>Ingresar</span>
-        </button>
-        <button className="nav-item" onClick={() => setActiveModal('banks')}>
-          <div className="icon-container green"><Landmark size={22} /></div>
-          <span>Bancos GE</span>
-        </button>
-      </nav>
-
-      {/* MODAL DINÁMICO MEJORADO */}
-      {activeModal && (
-        <div className="modal-overlay" onClick={closeModal}>
-          <div className="modal-sheet animate-slide-up" onClick={e => e.stopPropagation()}>
-            <div className="modal-handle"></div>
-            <button className="btn-close-sheet" onClick={closeModal}><X size={22} /></button>
-            
-            <div className="modal-body-content">
-                {activeModal === 'send' && <FormSend />}
-                {activeModal === 'withdraw' && <FormWithdraw balance={balance} />}
-                {activeModal === 'deposit' && <FormDeposit />}
-                {activeModal === 'banks' && !selectedBank && (
-                  <BankSelector onSelect={setSelectedBank} />
-                )}
-                {selectedBank && (
-                  <BankDetail bank={selectedBank} onBack={() => setSelectedBank(null)} />
-                )}
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* SECCIÓN DE ACTIVIDAD RECIENTE */}
-      <section className="activity-container">
-        <div className="activity-header">
-          <h3>Actividad reciente</h3>
-          <button className="btn-text">Ver todo</button>
-        </div>
-        
-        <div className="activity-feed">
-          <div className="activity-item">
-            <div className="activity-icon shop"><ShoppingBag size={18} /></div>
-            <div className="activity-details">
-              <strong>Martínez Hnos</strong>
-              <span>Supermercado • 14:20</span>
-            </div>
-            <div className="activity-value status-negative">-12,500 XAF</div>
-          </div>
-          
-          <div className="empty-state-msg">
-            <History size={32} />
-            <p>No hay más movimientos pendientes</p>
-          </div>
-        </div>
-      </section>
+    <div style={{
+      width: 46,
+      height: 46,
+      borderRadius: 14,
+      background: bg,
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      flexShrink: 0,
+    }}>
+      <Icon size={size} color={color} strokeWidth={1.8} />
     </div>
   );
 }
 
-/* --- SUB-COMPONENTES ACTUALIZADOS --- */
+/* Category → icon + colors */
+const ICON_MAP = {
+  "🛒": { icon: ShoppingCart,  bg: "#E8F5EF", color: "#00875A" },
+  "💸": { icon: ArrowDownLeft, bg: "#EEEAFF", color: "#6D4AFF" },
+  "⚡": { icon: Zap,           bg: "#FFFBEA", color: "#F59E0B" },
+  "🍕": { icon: UtensilsCrossed,bg:"#FFF0F0", color: "#EF4444" },
+  "📞": { icon: Phone,         bg: "#EFF6FF", color: "#3B82F6" },
+  "💰": { icon: Banknote,      bg: "#E8F5EF", color: "#00875A" },
+  "↑":  { icon: ArrowUpRight,  bg: "#FFF0F0", color: "#EF4444" },
+  "↓":  { icon: ArrowDownLeft, bg: "#E8F5EF", color: "#00875A" },
+  "🏠": { icon: Home,          bg: "#FFFBEA", color: "#F59E0B" },
+  "💧": { icon: Droplets,      bg: "#EFF6FF", color: "#3B82F6" },
+};
 
-const FormSend = () => (
-  <form className="modern-form">
-    <h3>Enviar Dinero</h3>
-    <div className="input-field">
-      <label>Destinatario</label>
-      <input type="text" placeholder="Nombre completo" />
-    </div>
-    <div className="input-field">
-      <label>Cuenta o Teléfono</label>
-      <input type="text" placeholder="+240 ..." />
-    </div>
-    <div className="input-field">
-      <label>Monto (XAF)</label>
-      <input type="number" placeholder="0.00" className="amount-input" />
-    </div>
-    <button className="btn-action-primary">Confirmar Envío</button>
-  </form>
-);
+function TxIconBubble({ icon }) {
+  const cfg = ICON_MAP[icon] || { icon: Banknote, bg: "#F4F6F9", color: "#8096A7" };
+  return <IconBubble icon={cfg.icon} bg={cfg.bg} color={cfg.color} />;
+}
 
-const FormWithdraw = ({ balance }) => (
-  <form className="modern-form">
-    <h3>Retirar Fondos</h3>
-    <div className="quick-withdraw-cards">
-      <button type="button" className="quick-card">
-        <small>Retirar Todo</small>
-        <strong>{balance.toLocaleString()}</strong>
-      </button>
+/* ── TxRow — exported for BottomSheet ── */
+export function TxRow({ tx }) {
+  const isPos = tx.amount > 0;
+  return (
+    <div className="tx-row">
+      <TxIconBubble icon={tx.icon} />
+      <div className="tx-info">
+        <strong>{tx.name}</strong>
+        <small>{tx.sub}</small>
+      </div>
+      <div className={`tx-amt ${isPos ? "pos" : "neg"}`}>
+        {isPos ? "+" : ""}{tx.amount.toLocaleString()} XAF
+      </div>
     </div>
-    <div className="input-field">
-      <label>Método de Retiro</label>
-      <select>
-        <option>Cajero Automático (OTP)</option>
-        <option>Punto de Agente Autorizado</option>
-      </select>
-    </div>
-    <button className="btn-action-primary red-bg">Generar Código de Retiro</button>
-  </form>
-);
+  );
+}
 
-const BankSelector = ({ onSelect }) => (
-  <div className="bank-selection-list">
-    <h3>Bancos en Guinea Ecuatorial</h3>
-    <div className="banks-grid">
-      {BANCOS_GE.map(bank => (
-        <div key={bank.id} className="bank-card-item" onClick={() => onSelect(bank)}>
-          <div className="bank-logo-box" style={{ background: bank.color }}>{bank.name[0]}</div>
-          <div className="bank-text">
-            <strong>{bank.name}</strong>
-            <span>{bank.full}</span>
+/* ── Quick action button ── */
+const ACTIONS = [
+  { icon: Send,     bg: "#EEEAFF", color: "#6D4AFF", label: "Enviar",    sheet: "send"     },
+  { icon: ArrowUp,  bg: "#FFF0F0", color: "#EF4444", label: "Retirar",   sheet: "withdraw" },
+  { icon: ArrowDown,bg: "#E8F5EF", color: "#00875A", label: "Ingresar",  sheet: "deposit"  },
+  { icon: Building2,bg: "#FFFBEA", color: "#F59E0B", label: "Bancos GE", sheet: "banks"    },
+];
+
+function QuickAction({ icon: Icon, bg, color, label, onClick }) {
+  return (
+    <button className="nav-item" onClick={onClick}>
+      <div style={{
+        width: 52,
+        height: 52,
+        borderRadius: 18,
+        background: bg,
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        transition: "transform 0.15s, box-shadow 0.15s",
+      }}
+        onMouseEnter={e => { e.currentTarget.style.transform = "scale(1.07)"; e.currentTarget.style.boxShadow = `0 6px 20px ${color}33`; }}
+        onMouseLeave={e => { e.currentTarget.style.transform = "scale(1)";    e.currentTarget.style.boxShadow = "none"; }}
+      >
+        <Icon size={22} color={color} strokeWidth={1.8} />
+      </div>
+      <span>{label}</span>
+    </button>
+  );
+}
+
+/* ── Dashboard root ── */
+export default function Dashboard({
+  user, balance, transactions, invoices,
+  activeTab, onOpenSheet, onPayInvoice, onAddInvoice,
+}) {
+  if (activeTab === "wallet")
+    return (
+      <WalletTab
+        user={user} balance={balance} invoices={invoices}
+        onPayInvoice={onPayInvoice} onAddInvoice={onAddInvoice}
+        onOpenSheet={onOpenSheet}
+      />
+    );
+
+  if (activeTab === "analytics")
+    return <AnalyticsTab transactions={transactions} />;
+
+  const name         = user?.name || "Usuario";
+  const initials     = name.split(" ").map(n => n[0]).join("").toUpperCase().slice(0, 2);
+  const firstName    = name.split(" ")[0];
+  const incomeTotal  = transactions.filter(t => t.amount > 0).reduce((s, t) => s + t.amount, 0);
+  const expenseTotal = transactions.filter(t => t.amount < 0).reduce((s, t) => s + Math.abs(t.amount), 0);
+
+  return (
+    <div className="dashboard-container">
+
+      {/* Header */}
+      <header className="dash-header">
+        <div className="user-profile">
+          <div className="avatar-wrapper">{initials}</div>
+          <div className="user-greeting">
+            <span className="user-greeting-text">Hola,</span>
+            <span className="user-greeting-name">{firstName} 👋</span>
           </div>
-          <ChevronRight size={18} color="#ccc" />
         </div>
-      ))}
-    </div>
-  </div>
-);
+        <div className="header-actions">
+          <button className="icon-circle-btn" onClick={() => onOpenSheet("search")}>
+            <Search size={18} />
+          </button>
+          <button className="icon-circle-btn" onClick={() => onOpenSheet("notifications")}>
+            <Bell size={18} />
+            <span className="notif-badge">3</span>
+          </button>
+        </div>
+      </header>
 
-const FormDeposit = () => (
-  <form className="modern-form">
-    <h3>Ingresar Dinero</h3>
-    <div className="deposit-toggle">
-      <button type="button" className="toggle-btn active">Tarjeta</button>
-      <button type="button" className="toggle-btn">Ahorro</button>
-    </div>
-    <div className="input-field">
-      <label>Monto a ingresar</label>
-      <input type="number" placeholder="Monto en XAF" />
-    </div>
-    <button className="btn-action-primary">Proceder al depósito</button>
-  </form>
-);
+      {/* Balance card */}
+      <section className="balance-hero-section">
+        <div className="balance-glass-card">
+          <span className="label">Saldo Disponible</span>
+          <h2 className="amount">
+            {balance.toLocaleString()} <small>XAF</small>
+          </h2>
+          <div className="balance-card-sub">
+            <div className="balance-sub-item">
+              <small>Ingresos</small>
+              <span>+{incomeTotal.toLocaleString()}</span>
+            </div>
+            <div className="balance-sub-item">
+              <small>Gastos</small>
+              <span>-{expenseTotal.toLocaleString()}</span>
+            </div>
+          </div>
+        </div>
+      </section>
 
-const BankDetail = ({ bank, onBack }) => (
-  <div className="bank-detail-view">
-    <button onClick={onBack} className="back-link">← Volver a la lista</button>
-    <div className="bank-header-detail">
-        <div className="large-logo" style={{ background: bank.color }}>{bank.name[0]}</div>
-        <h3 style={{ color: bank.color }}>{bank.name}</h3>
+      {/* Quick actions */}
+      <section className="quick-actions-section">
+        <div className="quick-actions-title">Acciones rápidas</div>
+        <div className="quick-actions-grid">
+          {ACTIONS.map(a => (
+            <QuickAction key={a.sheet} {...a} onClick={() => onOpenSheet(a.sheet)} />
+          ))}
+        </div>
+      </section>
+
+      {/* Daily Life */}
+      <DailyLifeSection
+        balance={balance}
+        onOpenCheckout={(item, tab) => onOpenSheet({ type: "checkout", item, tab })}
+      />
+
+      {/* Recent activity */}
+      <section className="activity-container">
+        <div className="sec-hdr" style={{ padding: "4px 0 10px" }}>
+          <span className="sec-title">Actividad reciente</span>
+          <span className="sec-link" onClick={() => onOpenSheet("analytics")}>Ver todo</span>
+        </div>
+        <div className="activity-feed">
+          {transactions.slice(0, 5).map(tx => (
+            <div key={tx.id} className="activity-item">
+              <TxIconBubble icon={tx.icon} />
+              <div className="activity-details">
+                <strong>{tx.name}</strong>
+                <span>{tx.sub}</span>
+              </div>
+              <div className={`activity-value ${tx.amount > 0 ? "status-positive" : "status-negative"}`}>
+                {tx.amount > 0 ? "+" : ""}{tx.amount.toLocaleString()} XAF
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
     </div>
-    <div className="branch-grid">
-      <div className="branch-card">Malabo I (Central)</div>
-      <div className="branch-card">Bata (Litoral)</div>
-    </div>
-    <div className="modern-form">
-      <label>Trámite Bancario</label>
-      <input type="text" placeholder="Ej: Solicitud de crédito" />
-      <button className="btn-action-primary" style={{ background: bank.color }}>Enviar Solicitud</button>
-    </div>
-  </div>
-);
+  );
+}

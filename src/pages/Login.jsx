@@ -5,16 +5,35 @@ import "../styles/AuthStyles.css";
 export default function Login({ onLogin, onGoToRegister }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onLogin();
+    setError("");
+
+    if (!email.trim()) {
+      setError("Ingresa tu correo electrónico.");
+      return;
+    }
+    if (!password.trim()) {
+      setError("Ingresa tu contraseña.");
+      return;
+    }
+
+    setLoading(true);
+    setTimeout(() => {
+      const ok = onLogin(email.trim(), password);
+      if (!ok) {
+        setError("Error al iniciar sesión. Intenta de nuevo.");
+        setLoading(false);
+      }
+    }, 800);
   };
 
   return (
     <div className="auth-body-context">
-      <div className="auth-card-modern register-wide">
-        {/* Logo */}
+      <div className="auth-card-modern">
         <div className="logo-container">
           <Leaf
             size={32}
@@ -29,7 +48,6 @@ export default function Login({ onLogin, onGoToRegister }) {
           </p>
         </div>
 
-        {/* Formulario */}
         <form onSubmit={handleSubmit} className="auth-form">
           <div className="modern-input-group">
             <label>Correo electrónico</label>
@@ -56,7 +74,6 @@ export default function Login({ onLogin, onGoToRegister }) {
               <label>Contraseña</label>
               <span className="forgot-password">¿Olvidaste tu clave?</span>
             </div>
-
             <div className="input-with-icon">
               <Lock size={18} className="input-icon-minimal" />
               <input
@@ -67,10 +84,22 @@ export default function Login({ onLogin, onGoToRegister }) {
                 required
               />
             </div>
+            {error && <span className="error-text">{error}</span>}
           </div>
 
-          <button type="submit" className="btn-primary-minimal">
-            Entrar <ArrowRight size={18} style={{ marginLeft: "8px" }} />
+          <button
+            type="submit"
+            className="btn-primary-minimal"
+            disabled={loading}
+          >
+            {loading ? (
+              "Entrando..."
+            ) : (
+              <>
+                {" "}
+                Entrar <ArrowRight size={18} style={{ marginLeft: 8 }} />{" "}
+              </>
+            )}
           </button>
 
           <p className="auth-footer-minimal">

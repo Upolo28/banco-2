@@ -1,12 +1,13 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import App from './App.jsx';
-import './styles/global.css';           // estilos globales primero
+import React from "react";
+import ReactDOM from "react-dom/client";
+import App from "./App";
+import "./styles/global.css";
 
-// Si más adelante usas react-router, aquí iría el <BrowserRouter>
-// Por ahora mantenemos la versión simple sin router
+// Mount inside phone shell on desktop, fallback to #root on mobile
+const mountTarget =
+  document.getElementById("root-inner") || document.getElementById("root");
 
-ReactDOM.createRoot(document.getElementById('root')).render(
+ReactDOM.createRoot(mountTarget).render(
   <React.StrictMode>
     <App />
   </React.StrictMode>

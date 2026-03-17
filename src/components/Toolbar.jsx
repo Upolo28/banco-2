@@ -2,44 +2,69 @@ import React from "react";
 import { Home, Wallet, PieChart, User, ShoppingBag } from "lucide-react";
 import "../styles/Toolbar.css";
 
-export default function Toolbar({ activeTab, setActiveTab, openSlider }) {
-  // Añadimos "DailyLife" para que aparezca en la barra principal
-  const menuItems = [
-    { id: "dashboard", icon: <Home size={22} />, label: "Inicio" },
-    { id: "daily", icon: <ShoppingBag size={22} />, label: "Daily" }, // Abre DailyContent
-    { id: "wallet", icon: <Wallet size={22} />, label: "Cartera" },
-    { id: "analytics", icon: <PieChart size={22} />, label: "Análisis" },
-    { id: "profile", icon: <User size={22} />, label: "Perfil" }, // Abre ProfileContent
-  ];
+const MENU_ITEMS = [
+  { id: "dashboard", icon: Home,        label: "Inicio",   bg: "#E8F5EF", color: "#00875A" },
+  { id: "daily",     icon: ShoppingBag, label: "Daily",    bg: "#EEEAFF", color: "#6D4AFF", sheet: true },
+  { id: "wallet",    icon: Wallet,      label: "Cartera",  bg: "#EFF6FF", color: "#3B82F6" },
+  { id: "analytics", icon: PieChart,    label: "Análisis", bg: "#FFFBEA", color: "#F59E0B" },
+  { id: "profile",   icon: User,        label: "Perfil",   bg: "#FFF0F0", color: "#EF4444", sheet: true },
+];
 
-  const handleAction = (itemId) => {
-    if (itemId === "daily") {
-      openSlider("daily"); // Llama a la función para abrir VentanillaSlider.jsx
-    } else if (itemId === "profile") {
-      openSlider("profile");
-    } else {
-      setActiveTab(itemId);
-    }
+export default function Toolbar({ activeTab, setActiveTab, openSlider }) {
+  const handleClick = (item) => {
+    if (item.sheet) openSlider(item.id);
+    else setActiveTab(item.id);
   };
 
   return (
     <nav className="toolbar-container-v2">
       <div className="toolbar-content-v2">
-        {menuItems.map((item) => (
-          <button
-            key={item.id}
-            className={`toolbar-item-v2 ${
-              activeTab === item.id ? "active" : ""
-            }`}
-            onClick={() => handleAction(item.id)}
-          >
-            <div className="icon-box-v2">
-              {item.icon}
-              {item.id === "dashboard" && <span className="notif-dot-v2" />}
-            </div>
-            <span className="toolbar-label-v2">{item.label}</span>
-          </button>
-        ))}
+        {MENU_ITEMS.map((item) => {
+          const Icon    = item.icon;
+          const isActive = !item.sheet && activeTab === item.id;
+          return (
+            <button
+              key={item.id}
+              className={`toolbar-item-v2 ${isActive ? "active" : ""}`}
+              onClick={() => handleClick(item)}
+            >
+              {/* Revolut-style bubble — filled when active */}
+              <div style={{
+                width: 40,
+                height: 40,
+                borderRadius: 13,
+                background: isActive ? item.bg : "transparent",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                transition: "all 0.2s",
+                position: "relative",
+              }}>
+                <Icon
+                  size={20}
+                  color={isActive ? item.color : "#A0AEC0"}
+                  strokeWidth={isActive ? 2.2 : 1.8}
+                />
+                {item.id === "dashboard" && (
+                  <span style={{
+                    position: "absolute",
+                    top: 6, right: 6,
+                    width: 7, height: 7,
+                    background: "#EF4444",
+                    borderRadius: "50%",
+                    border: "1.5px solid white",
+                  }} />
+                )}
+              </div>
+              <span className="toolbar-label-v2" style={{
+                color: isActive ? item.color : "#A0AEC0",
+                fontWeight: isActive ? 700 : 500,
+              }}>
+                {item.label}
+              </span>
+            </button>
+          );
+        })}
       </div>
     </nav>
   );
